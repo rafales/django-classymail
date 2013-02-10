@@ -1,0 +1,3 @@
+pytz
+pytest
+pytest-django
