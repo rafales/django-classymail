@@ -56,7 +56,7 @@ class EmailBuilder(object):
         """
         return self.get_message()
 
-    # Methods meant to be overriden by subclasses
+    # Methods meant to be overridden by subclasses
 
     def get_to(self):
         """
