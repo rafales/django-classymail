@@ -56,6 +56,14 @@ class EmailBuilder(object):
         """
         return self.get_message()
 
+    @classmethod
+    def send(cls, **kwargs):
+        """
+        A shortcut which builds and sends message.
+        """
+        builder = cls(**kwargs)
+        builder.build().send()
+
     # Methods meant to be overridden by subclasses
 
     def get_to(self):

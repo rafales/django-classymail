@@ -1,4 +1,5 @@
 import copy
+from django.core import mail
 from django.utils import translation, functional
 from django.core.mail.backends.dummy import EmailBackend as DummyEmailBackend
 from classymail import EmailBuilder
@@ -48,3 +49,11 @@ class TestEmailBuilderClass(object):
         msg = builder.build()
         assert isinstance(msg, Dummy)
         assert msg.kwargs == kwargs
+
+    def test_send_shortcut(self):
+        EmailBuilder.send(to=['test@example.com'], subject="Test subject",
+            body="Test body")
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].to == ['test@example.com']
+        assert mail.outbox[0].subject == "Test subject"
+        assert mail.outbox[0].body == "Test body"
