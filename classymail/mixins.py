@@ -5,14 +5,13 @@ classymail.mixins
 A set of mixins for EmailBuilder. Some of them are part of ClassyMail class,
 rest of them can be mixed when needed.
 """
-import premailer
 from django.core import mail
 from django.contrib.sites.models import Site
 from django.utils import timezone, translation
 from django.template.loader import render_to_string
 from django.core.exceptions import ImproperlyConfigured
 from .base import EmailBuilder
-from .utils import isolate_language, isolate_timezone
+from .utils import isolate_language, isolate_timezone, get_css_inline_function
 
 
 class ContextMixin(EmailBuilder):
@@ -100,9 +99,10 @@ class HtmlAndTextTemplateMixin(ContextMixin):
 
         Returns string.
         """
+        css_inline_fn = get_css_inline_function()
         template_name = self.get_html_template_name()
         body = render_to_string(template_name, context)
-        body = premailer.transform(body)
+        body = css_inline_fn(body)
         return body
 
     def render_text_template(self, context):
