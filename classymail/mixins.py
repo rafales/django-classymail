@@ -119,7 +119,7 @@ class HtmlAndTextTemplateMixin(ContextMixin):
         self.context = self.get_context_data()
         msg = super(HtmlAndTextTemplateMixin, self).get_message()
         html_body = self.render_html_template(self.context)
-        msg.attach_alternative(html_body, 'html')
+        msg.attach_alternative(html_body, 'text/html')
         return msg
 
     def get_body(self):
