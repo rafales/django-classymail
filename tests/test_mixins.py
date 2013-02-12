@@ -1,3 +1,4 @@
+from django.core import mail
 import pytz
 import pytest
 from django.contrib.sites.models import Site
@@ -142,3 +143,22 @@ class TestHtmlAndTextTemplateMixin(object):
             text_template_name='classymail/email.txt')
         ret = builder.render_text_template({})
         assert ret.strip() == 'This is a test'
+
+    def test_creating_message(self):
+        mixins.HtmlAndTextTemplateMixin.send(
+            text_template_name='classymail/email.txt',
+            html_template_name='classymail/email.html',
+            to=['test@example.com'])
+
+        assert len(mail.outbox) == 1
+
+        # Note: this is email.mime.multipart.MIMEMultipart instance
+        msg = mail.outbox[0].message()
+        assert msg['To'] == 'test@example.com'
+        assert msg.is_multipart()
+        parts = msg.get_payload()
+        assert len(parts) == 2
+        assert parts[0].get_content_type() == 'text/plain'
+        assert parts[0].get_payload() == 'This is a test'
+        assert parts[1].get_content_type() == 'text/html'
+        assert parts[1].get_payload().strip() == '<html><body><b>This is a test</b></body></html>'
