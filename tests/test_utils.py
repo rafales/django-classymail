@@ -1,5 +1,7 @@
+from django.test.utils import override_settings
 from os.path import abspath
 import premailer
+from django.utils import translation
 from classymail import utils
 
 
@@ -17,3 +19,7 @@ class TestUtils(object):
         # use premailer's transform by default
         del settings.CLASSYMAIL_CSS_INLINE_FUNCTION
         assert utils.get_css_inline_function() is premailer.transform
+
+    def test_css_inline_noop_function(self):
+        expected = object()
+        assert utils._css_inline_noop(expected) == expected

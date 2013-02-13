@@ -27,10 +27,7 @@ class isolate_language(object):
         self.language = translation.get_language()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if not self.language:
-            translation.deactivate()
-        else:
-            translation.activate(self.language)
+        translation.activate(self.language)
 
 
 def get_function_by_path(fn_path):

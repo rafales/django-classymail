@@ -1,4 +1,5 @@
 import copy
+import pytest
 from django.core import mail
 from django.utils import translation, functional
 from django.core.mail.backends.dummy import EmailBackend as DummyEmailBackend
@@ -57,3 +58,7 @@ class TestEmailBuilderClass(object):
         assert mail.outbox[0].to == ['test@example.com']
         assert mail.outbox[0].subject == "Test subject"
         assert mail.outbox[0].body == "Test body"
+
+    def test_invalid_keyword_argument(self):
+        with pytest.raises(TypeError):
+            EmailBuilder(invalid_keyword_argument=1)
