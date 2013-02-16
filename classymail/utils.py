@@ -57,3 +57,13 @@ def get_css_inline_function():
     if not fn_path:
         return _css_inline_noop
     return get_function_by_path(fn_path)
+
+
+def get_context_processors():
+    """
+    Returns list of classymail context processors.
+    """
+    return [
+        get_function_by_path(path) for path in
+        (getattr(settings, 'CLASSYMAIL_CONTEXT_PROCESSORS', None) or ())
+    ]

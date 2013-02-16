@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.core.exceptions import ImproperlyConfigured
 from .base import EmailBuilder
 from .utils import isolate_language, isolate_timezone, get_css_inline_function
+from .utils import get_context_processors
 
 
 class ContextMixin(EmailBuilder):
@@ -29,6 +30,18 @@ class ContextMixin(EmailBuilder):
         }
         if self.extra_context:
             data.update(self.extra_context)
+        return data
+
+
+class ContextProcessorMixin(ContextMixin):
+    """
+    A mixin which collects data from context processors and adds it to the
+    template context.
+    """
+    def get_context_data(self):
+        data = super(ContextProcessorMixin, self).get_context_data()
+        for processor in get_context_processors():
+            data.update(processor(builder=self))
         return data
 
 

@@ -1,6 +1,6 @@
-from django.core import mail
 import pytz
 import pytest
+from django.core import mail
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.utils import translation, timezone
@@ -162,3 +162,25 @@ class TestHtmlAndTextTemplateMixin(object):
         assert parts[0].get_payload() == 'This is a test'
         assert parts[1].get_content_type() == 'text/html'
         assert parts[1].get_payload().strip() == '<html><body><b>This is a test</b></body></html>'
+
+
+class TestContextProcessorMixin(object):
+    def test_context_processor_setting(self, monkeypatch, settings):
+        def _test_processor(builder):
+            assert builder is mixin
+            return {'x': 1, 'y': 2}
+
+        from . import context_processors
+        monkeypatch.setattr(context_processors, 'ctx_processor1',
+            _test_processor)
+
+        settings.CLASSYMAIL_CONTEXT_PROCESSORS = (
+            'tests.context_processors.ctx_processor1',
+            'tests.context_processors.ctx_processor2',
+        )
+
+        mixin = mixins.ContextProcessorMixin()
+        ctx = mixin.get_context_data()
+        assert ctx['builder'] is mixin
+        assert ctx['x'] == 1 and ctx['y'] == 2
+        assert ctx['c'] == 3 and ctx['d'] == 4

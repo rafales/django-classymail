@@ -1,10 +1,10 @@
 from .base import EmailBuilder
 from .mixins import LocalizationMixin, ContextMixin, SiteMixin
-from .mixins import HtmlAndTextTemplateMixin
+from .mixins import HtmlAndTextTemplateMixin, ContextProcessorMixin
 
 
 class ClassyMail(LocalizationMixin, HtmlAndTextTemplateMixin, SiteMixin,
-        EmailBuilder):
+        ContextProcessorMixin, EmailBuilder):
     """
     A class which combines functionality of several mixins:
 
@@ -14,5 +14,7 @@ class ClassyMail(LocalizationMixin, HtmlAndTextTemplateMixin, SiteMixin,
     * HtmlAndTextTemplateMixin - rendering e-mails using templates, with plain
       text content and html alternative
     * SiteMixin - adds current site to the template context
+    * ContextProcessorMixin - adds data collected from context processors to
+      the template context
     """
     pass

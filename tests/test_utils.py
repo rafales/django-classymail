@@ -1,7 +1,5 @@
-from django.test.utils import override_settings
 from os.path import abspath
 import premailer
-from django.utils import translation
 from classymail import utils
 
 
@@ -23,3 +21,20 @@ class TestUtils(object):
     def test_css_inline_noop_function(self):
         expected = object()
         assert utils._css_inline_noop(expected) == expected
+
+    def test_get_context_processors(self, settings):
+        from .context_processors import ctx_processor1, ctx_processor2
+        if hasattr(settings, 'CLASSYMAIL_CONTEXT_PROCESSORS'):
+            del settings.CLASSYMAIL_CONTEXT_PROCESSORS
+        assert utils.get_context_processors() == []
+
+        settings.CLASSYMAIL_CONTEXT_PROCESSORS = None
+        assert utils.get_context_processors() == []
+
+        settings.CLASSYMAIL_CONTEXT_PROCESSORS = (
+            'tests.context_processors.ctx_processor1',
+            'tests.context_processors.ctx_processor2',
+        )
+
+        processors = utils.get_context_processors()
+        assert processors == [ctx_processor1, ctx_processor2]
