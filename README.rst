@@ -11,8 +11,8 @@ steps in.
 Django-ClassyMail is a library for building e-mail messages in a fashion
 similar to django's class based views.
 
-You can create mixins, override little things with keyword arguments and
-there's a lot of builtin functionality.
+You can create mixins, override attributes with keyword arguments and
+there's a lot of builtin functionality. Just like class based views.
 
 Django-ClassyMail will handle css inlining, timezone, language and urls
 for you.
