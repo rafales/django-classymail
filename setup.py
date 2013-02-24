@@ -8,7 +8,7 @@ setup(
     author='Rafal Stozek',
     license='BSD',
 
-    packages=['classymail'],
+    packages=['classymail', 'classymail.templatetags'],
 
     install_requires=[
         'premailer',

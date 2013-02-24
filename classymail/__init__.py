@@ -1,6 +1,14 @@
 from .base import EmailBuilder
 from .mixins import LocalizationMixin, ContextMixin, SiteMixin
 from .mixins import HtmlAndTextTemplateMixin, ContextProcessorMixin
+from .utils import build_absolute_url
+
+
+__all__ = (
+    'ClassyMail', 'EmailBuilder', 'LocalizationMixin', 'ContextMixin',
+    'SiteMixin', 'HtmlAndTextTemplateMixin', 'ContextProcessorMixin',
+    'build_absolute_url',
+)
 
 
 class ClassyMail(LocalizationMixin, HtmlAndTextTemplateMixin, SiteMixin,
