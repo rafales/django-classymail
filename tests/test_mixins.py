@@ -1,3 +1,4 @@
+from contextlib import nested
 import pytz
 import pytest
 from django.core import mail
@@ -54,7 +55,7 @@ class TestLocalizationMixin(object):
             assert translation.get_language() == 'de'
             assert timezone.get_current_timezone() == berlin
 
-        with timezone.override(berlin), translation.override('de'):
+        with nested(timezone.override(berlin), translation.override('de')):
             mixin = mixins.LocalizationMixin()
             monkeypatch.setattr(mixin, 'get_message', check)
             mixin.build()

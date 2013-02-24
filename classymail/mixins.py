@@ -5,6 +5,7 @@ classymail.mixins
 A set of mixins for EmailBuilder. Some of them are part of ClassyMail class,
 rest of them can be mixed when needed.
 """
+from contextlib import nested
 from django.core import mail
 from django.contrib.sites.models import Site
 from django.utils import timezone, translation
@@ -71,7 +72,7 @@ class LocalizationMixin(EmailBuilder):
 
     def build(self):
         tz, lang = self.get_timezone(), self.get_language()
-        with isolate_language(), isolate_timezone():
+        with nested(isolate_language(), isolate_timezone()):
             if tz:
                 timezone.activate(tz)
             if lang:
