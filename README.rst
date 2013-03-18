@@ -23,7 +23,7 @@ https://django-classymail.readthedocs.org/en/latest/
 
 And here's an example::
 
-    class UserMixin(ClassyMail):
+    class UserEmail(ClassyMail):
         """
         Sets language and timezone according to user preferences, adds "user" to
         template context and sets recipient to user's email address.
@@ -44,7 +44,7 @@ And here's an example::
             data['user'] = self.user
             return data
 
-    class WelcomeEmail(UserMixin, ClassyMail):
+    class WelcomeEmail(UserEmail):
         html_template_name = 'emails/welcome.html'
         text_template_name = 'emails/welcome.txt'
 
