@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name="django-classymail",
-    version="0.1dev",
+    version="0.2",
     description='E-mails in Django. Classy.',
     author='Rafal Stozek',
     license='BSD',
@@ -16,7 +16,7 @@ setup(
     ],
 
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 4 - Beta',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
